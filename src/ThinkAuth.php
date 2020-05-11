@@ -32,7 +32,7 @@ use think\facade\Config;
  *      在think_auth_rule 表中定义一条规则，condition字段就可以定义规则表达式。 如定义{score}>5  and {score}<100
  * 表示用户的分数在5-100之间时这条规则才会通过。
  */
-class Auth
+class ThinkAuth
 {
 
     /**
@@ -53,12 +53,12 @@ class Auth
         'auth_group'        => 'auth_group', // 用户组数据表名
         'auth_group_access' => 'auth_group_access', // 用户-用户组关系表
         'auth_rule'         => 'auth_rule', // 权限规则表
-        'auth_user'         => 'user', // 用户信息表
+        'user'              => 'user', // 用户信息表
     ];
 
     public function __construct()
     {
-        if ($auth =Config::get('auth')) {
+        if ($auth = Config::get('auth')) {
             $this->config = array_merge($this->config, $auth);
         }
         // 初始化request
@@ -246,7 +246,7 @@ class Auth
     {
         static $user_info = [];
 
-        $user = Db::name($this->config['auth_user']);
+        $user = Db::name($this->config['user']);
         // 获取用户表主键
         $_pk = is_string($user->getPk()) ? $user->getPk() : 'uid';
         if (!isset($user_info[$uid])) {
