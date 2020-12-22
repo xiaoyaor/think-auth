@@ -187,11 +187,9 @@ class ThinkAuth
         }
 
         // 筛选条件
-        $where = [
-            'status' => 'normal'
-        ];
+        $where[] = ['status','=', 'normal'];
         if (!in_array('*', $ids)) {
-            $where['id'] = ['in', $ids];
+            $where[] = ['id','in', $ids];
         }
         //读取用户组所有权限规则
         $this->rules = Db::name($this->config['auth_rule'])->where($where)->field('id,pid,condition,icon,name,title,ismenu')->select();
